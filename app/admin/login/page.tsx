@@ -1,0 +1,1 @@
+import{LoginForm}from"./login-form";export default function Page(){return <main className="login-page"><section className="login-card"><p className="kicker">Área reservada</p><h1>Painel administrativo</h1><p>Informe um dos e-mails autorizados. Você receberá um link seguro, sem precisar de senha.</p><LoginForm/></section></main>}

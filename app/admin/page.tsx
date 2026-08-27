@@ -1,0 +1,2 @@
+import{redirect}from"next/navigation";import{requireAdmin}from"@/lib/supabase/admin";import{AdminPanel}from"./admin-panel";
+export default async function Page(){const user=await requireAdmin();if(!user)redirect("/admin/login");return <main className="admin-page"><header><div><p className="kicker">Chá de Casa Nova</p><h1>Painel administrativo</h1></div><span>{user.email}</span></header><AdminPanel/></main>}
