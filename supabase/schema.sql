@@ -4,6 +4,8 @@ create table if not exists public.gifts (
   name text not null,
   category text not null default 'Casa',
   description text not null default '',
+  image_url text,
+  purchase_url text,
   claimed_by_name text,
   claimed_by_phone text,
   claimed_at timestamptz,
@@ -29,6 +31,10 @@ begin
   return changed=1;
 end;$$;
 revoke all on function public.claim_gift(uuid,text,text) from public,anon,authenticated;
+
+insert into storage.buckets(id,name,public,file_size_limit,allowed_mime_types)
+values('gift-images','gift-images',true,6291456,array['image/jpeg','image/png','image/webp','image/avif'])
+on conflict(id) do update set public=true,file_size_limit=6291456,allowed_mime_types=excluded.allowed_mime_types;
 
 insert into public.gifts(name,category,description) values
 ('Jogo de toalhas','Banheiro','Para deixar o nosso cantinho ainda mais aconchegante'),

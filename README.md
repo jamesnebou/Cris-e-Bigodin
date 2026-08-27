@@ -11,6 +11,12 @@ Sistema responsivo com convite, lista de presentes, reserva atômica de itens, c
 5. Cadastre na Vercel as variáveis de `.env.example` com os valores do Supabase.
 6. Faça o deploy.
 
+## Atualização para imagens e links de compra
+
+Se o banco já foi criado com uma versão anterior, abra o **SQL Editor** do Supabase e execute `supabase/migrations/20260827_gift_images_and_links.sql` uma única vez. Essa migração adiciona a foto do presente, o link privado de compra e o bucket usado pelo upload direto do painel.
+
+No painel, a foto pode ser enviada em JPEG, PNG, WebP ou AVIF com até 6 MB. O endereço da loja permanece fora da listagem pública; o convidado vê apenas o botão **Pode olhar aqui!**.
+
 ## Links
 
 - `/` — convite e lista de presentes
