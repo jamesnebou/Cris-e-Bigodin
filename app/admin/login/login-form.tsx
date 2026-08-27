@@ -1,2 +1,51 @@
-"use client";import{useState}from"react";import{createBrowserClient}from"@supabase/ssr";
-export function LoginForm(){const[email,setEmail]=useState(""),[message,setMessage]=useState("");async function submit(e:React.FormEvent){e.preventDefault();const supabase=createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!,process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);const{error}=await supabase.auth.signInWithOtp({email,options:{emailRedirectTo:`${location.origin}/auth/callback?next=/admin`}});setMessage(error?error.message:"Enviamos o link de acesso para o seu e-mail.")}return <form className="admin-form" onSubmit={submit}><label>E-mail<input type="email" required value={email} onChange={e=>setEmail(e.target.value)} placeholder="seu@email.com"/></label>{message?<div className="notice">{message}</div>:null}<button>Enviar link de acesso</button></form>}
+"use client";
+
+import { useState } from "react";
+
+export function LoginForm() {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [sending, setSending] = useState(false);
+
+  async function submit(event: React.FormEvent) {
+    event.preventDefault();
+    if (sending) return;
+    setSending(true);
+    setMessage("");
+
+    try {
+      const response = await fetch("/api/auth/magic-link", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const result = await response.json();
+      setMessage(result.message ?? "Não foi possível enviar o link de acesso.");
+    } catch {
+      setMessage("Não foi possível conectar ao serviço de autenticação. Tente novamente.");
+    } finally {
+      setSending(false);
+    }
+  }
+
+  return (
+    <form className="admin-form login-form" onSubmit={submit}>
+      <label>
+        E-mail
+        <input
+          type="email"
+          inputMode="email"
+          autoComplete="email"
+          required
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          placeholder="seu@email.com"
+        />
+      </label>
+      {message ? <div className="notice" role="status">{message}</div> : null}
+      <button disabled={sending}>
+        {sending ? "Enviando..." : "Enviar link de acesso"}
+      </button>
+    </form>
+  );
+}
