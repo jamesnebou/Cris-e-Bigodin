@@ -6,7 +6,7 @@ Sistema responsivo com convite, lista de presentes, reserva atômica de itens, c
 
 1. Crie um projeto no Supabase.
 2. Abra **SQL Editor**, cole e execute `supabase/schema.sql`.
-3. Em **Authentication > URL Configuration**, use `https://cris-e-bigodin.vercel.app` como **Site URL** e adicione `https://cris-e-bigodin.vercel.app/auth/callback` em **Redirect URLs**.
+3. Em **Authentication > URL Configuration**, use o domínio principal da Vercel como **Site URL** e adicione `https://SEU-DOMINIO/auth/callback` em **Redirect URLs**. Para o domínio atual, inclua `https://filipe-cris.vercel.app/auth/callback`.
 4. Importe este repositório na Vercel.
 5. Cadastre na Vercel as variáveis de `.env.example` com os valores do Supabase.
 6. Faça o deploy.

@@ -1,11 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { completeBrowserAuth } from "@/lib/supabase/complete-browser-auth";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
+
+  useEffect(() => {
+    if (!window.location.hash.includes("access_token=")) return;
+    setSending(true);
+    setMessage("Validando seu acesso...");
+    completeBrowserAuth()
+      .then((completed) => {
+        if (!completed) throw new Error("Sessão inválida");
+        window.location.replace("/admin");
+      })
+      .catch(() => {
+        window.history.replaceState({}, "", "/admin/login?error=invalid_link");
+        setMessage("Este link é inválido ou expirou. Solicite um novo acesso.");
+        setSending(false);
+      });
+  }, []);
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
