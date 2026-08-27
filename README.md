@@ -20,7 +20,7 @@ No painel, a foto pode ser enviada em JPEG, PNG, WebP ou AVIF com até 6 MB. O e
 ## Links
 
 - `/` — convite e lista de presentes
-- `/confirmar-presenca` — confirmação de presença
+- `/confirmar-presenca` — confirmação de presença por link separado, sem acesso visível na página pública; deve ser enviado manualmente aos convidados
 - `/admin` — painel administrativo
 
 Administradores autorizados: `contato@nexawi.com.br` e `tinewest3@gmail.com`.
